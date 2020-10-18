@@ -13,6 +13,9 @@ namespace GDD
         public GameObject spawn;
         public List<GameObject> target_list;
 
+        private float max_hp;
+        private HPBar hp_bar;
+
         [Range(0.1f, 3f)]
         public float rate_of_fire = 1f;
 
@@ -23,7 +26,9 @@ namespace GDD
 
         private void Start()
         {
+            this.hp_bar = this.GetComponentInChildren<HPBar>();
             this.stats = Instantiate(stats);
+            this.max_hp = this.stats.hp;
             this.target_list = new List<GameObject>();
         }
 
@@ -39,6 +44,8 @@ namespace GDD
                 SpawnProjectile();
                 StartCoroutine(FireRateCD(this.rate_of_fire));
             }
+
+            this.hp_bar.UpdateHPBar(this.max_hp, this.stats.hp);
         }
 
         private void SpawnProjectile()

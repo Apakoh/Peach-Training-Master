@@ -21,20 +21,18 @@ namespace GDD
 
         public Vector3 path_end;
 
-        private Slider hp_bar;
+        private HPBar hp_bar;
 
         private int max_hp;
 
         void Start()
         {
-            this.hp_bar = this.GetComponentInChildren<Slider>();
+            this.hp_bar = this.GetComponentInChildren<HPBar>();
             
             this.stats = Instantiate(stats);
             this.speed_ref = 15f;
             this.stats.speed *= this.speed_ref;
             this.max_hp = this.stats.hp;
-
-            this.hp_bar.maxValue = this.max_hp;
 
             if (path_creator != null)
             {
@@ -56,7 +54,7 @@ namespace GDD
                 transform.rotation = path_creator.path.GetRotationAtDistance(distance_travelled, end_of_path_instruction);
             }
 
-            this.hp_bar.value = this.stats.hp;
+            this.hp_bar.UpdateHPBar(this.max_hp, this.stats.hp);
         }
 
         void OnPathChanged()
