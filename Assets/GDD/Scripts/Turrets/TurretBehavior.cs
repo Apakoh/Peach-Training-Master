@@ -19,7 +19,7 @@ namespace GDD
         [Range(0.1f, 3f)]
         public float rate_of_fire = 1f;
 
-        [Range(10f, 100f)]
+        [Range(10f, 200f)]
         public float projectile_velocity = 100f;
 
         private bool can_fire = true;

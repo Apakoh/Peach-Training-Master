@@ -23,7 +23,10 @@ namespace GDD
 
         private void OnTriggerExit(Collider col)
         {
-            this.turret.target_list.Remove(col.gameObject);
+            if (col.tag == "Enemy")
+            {
+                this.turret.target_list.Remove(col.gameObject);
+            }
         }
     }
 }
