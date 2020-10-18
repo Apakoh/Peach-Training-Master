@@ -34,6 +34,11 @@ namespace GDD
 
         void Update()
         {
+            if(this.stats.hp <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+
             if (this.target_list.Count > 0 && this.target_list[0] == null)
             {
                 this.target_list.RemoveAt(0);
