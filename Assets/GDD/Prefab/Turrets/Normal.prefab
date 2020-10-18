@@ -174,7 +174,7 @@ MonoBehaviour:
   spawn: {fileID: 8018413066526482710}
   target_list: []
   rate_of_fire: 1
-  projectile_velocity: 100
+  projectile_velocity: 200
 --- !u!1 &8018413066526482710
 GameObject:
   m_ObjectHideFlags: 0
