@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f600df9ef7802164089427174f80a1b4, type: 3}
+  m_Name: Level 2
+  m_EditorClassIdentifier: 
+  waves:
+  - {fileID: 11400000, guid: 7cc9875f578aaac45a1f3245a3265645, type: 2}
+  - {fileID: 11400000, guid: 67d05ed6bb62b7e4380777ebfb357781, type: 2}
+  - {fileID: 11400000, guid: 32d6596fffac0bf48bec1f5057754b2f, type: 2}
+  - {fileID: 11400000, guid: 7c87aae56540e4348b241074591f7edd, type: 2}
+  - {fileID: 11400000, guid: e2196d70c03ca2b4faf381cb379fdace, type: 2}
