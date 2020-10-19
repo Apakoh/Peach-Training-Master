@@ -10,7 +10,6 @@ namespace AI_FANN
         {
             List<uint> layers = new List<uint>();
             NeuralNet network = new NeuralNet(FANNCSharp.NetworkType.LAYER, layers);
-        }
-        
+        }        
     }
 }
