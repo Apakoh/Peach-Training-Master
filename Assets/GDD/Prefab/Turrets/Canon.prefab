@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 8018413066111333226}
   - component: {fileID: 8018413066111333225}
   - component: {fileID: 8018413066111333224}
-  - component: {fileID: 1329821606808347590}
+  - component: {fileID: 8584284727922855687}
   m_Layer: 0
   m_Name: Canon
   m_TagString: Turret
@@ -311,7 +311,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1329821606808347590
+--- !u!114 &8584284727922855687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8018413066111333231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020af3ca030177a4cad3619a5357ce79, type: 3}
+  m_Script: {fileID: 11500000, guid: 080bf5fedfa6695459354e107c23a4f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 75846cf53af761f4787bc55fbc0e0f4f, type: 2}
@@ -329,6 +329,7 @@ MonoBehaviour:
   target_list: []
   rate_of_fire: 1
   projectile_velocity: 200
+  can_fire: 1
 --- !u!1 &8018413066526482710
 GameObject:
   m_ObjectHideFlags: 0

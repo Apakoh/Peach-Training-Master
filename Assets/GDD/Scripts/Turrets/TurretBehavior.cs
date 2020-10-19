@@ -22,7 +22,7 @@ namespace GDD
         [Range(10f, 200f)]
         public float projectile_velocity = 100f;
 
-        private bool can_fire = true;
+        public bool can_fire = true;
 
         private void Start()
         {
@@ -32,9 +32,9 @@ namespace GDD
             this.target_list = new List<GameObject>();
         }
 
-        void Update()
+        public void TurretManagement()
         {
-            if(this.stats.hp <= 0)
+            if (this.stats.hp <= 0)
             {
                 Destroy(this.gameObject);
             }
@@ -44,28 +44,10 @@ namespace GDD
                 this.target_list.RemoveAt(0);
             }
 
-            if (this.can_fire && target_list.Count > 0)
-            {
-                SpawnProjectile();
-                StartCoroutine(FireRateCD(this.rate_of_fire));
-            }
-
             this.hp_bar.UpdateHPBar(this.max_hp, this.stats.hp);
         }
 
-        private void SpawnProjectile()
-        {
-            Vector3 position = spawn.transform.position;
-
-            GameObject projectile = Instantiate(projectile_prefab, position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().linked_turret = this;
-            if (projectile != null && target_list[0] != null)
-            {
-                projectile.GetComponent<Rigidbody>().velocity = (target_list[0].transform.position - projectile.transform.position).normalized * this.projectile_velocity;
-            }
-        }
-
-        private IEnumerator FireRateCD(float seconds)
+        public IEnumerator FireRateCD(float seconds)
         {
             this.can_fire = false;
             yield return new WaitForSeconds(seconds);

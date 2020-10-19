@@ -68,7 +68,7 @@ namespace GDD
                 transform.rotation = path_creator.path.GetRotationAtDistance(distance_travelled, end_of_path_instruction);
             }
             else if(this.attacking_turret && this.can_attack)
-            {
+            {               
                 this.attacked_turret.stats.hp -= this.stats.dps;
                 StartCoroutine(CoolDownAttack(this.cd_attack));
             }
