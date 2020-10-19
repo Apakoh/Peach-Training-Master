@@ -24,12 +24,15 @@ namespace Synthese
 
         private void Start()
         {
+            //this.old_target_position = this.target.transform.position;
             this.old_target_position = this.target.transform.position;
             InstantiatePoints();
         }
 
         private void Update()
         {
+            this.target.transform.position = MousePosition();
+
             if (this.old_target_position != this.target.transform.position && build)
             {
                 InverseKinetic();
@@ -143,7 +146,7 @@ namespace Synthese
                     B.transform.position = point_A + (direction * d2);
                 }
 
-                AngleConstraintGestion(A, B, C);
+                //AngleConstraintGestion(A, B, C);
             }
         }
 
@@ -172,7 +175,8 @@ namespace Synthese
                 {
                     Point C = this.list_points_go[i + 1];
                     Vector3 point_C = C.transform.position;
-                    AngleConstraintGestion(A, B, C);
+                    
+                    //AngleConstraintGestion(A, B, C);
                 }
             }
         }
@@ -231,6 +235,15 @@ namespace Synthese
             this.build = false;
             yield return new WaitForSeconds(seconds);
             this.build = true;
+        }
+
+        private Vector3 MousePosition()
+        {
+            Vector3 mouse_position = Input.mousePosition;
+
+            mouse_position.z = -1 * Camera.main.transform.position.z;
+
+            return Camera.main.ScreenToWorldPoint(mouse_position);
         }
 
     }
