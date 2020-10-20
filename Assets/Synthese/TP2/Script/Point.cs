@@ -9,6 +9,8 @@ namespace Synthese_TP2
         public Vector3 velocity;
         public float mass;
 
+        public Vector3 previous_position;
+
         private void Start()
         {
             this.velocity = RandomVelocity();

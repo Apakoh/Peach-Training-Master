@@ -21,7 +21,7 @@ namespace Synthese_TP2
             this.bundaries = pf.bundaries;
             this.gravity_check = true;
 
-            Time.timeScale = 0.2f;
+            Time.timeScale = 1f;
         }
 
         private void Update()
@@ -45,6 +45,8 @@ namespace Synthese_TP2
             }
         }
 
+        // GRAVITY SIMULATION
+
         private Vector3 Gravity(Point pt)
         {
            return pt.transform.position + pt.velocity + pt.mass * gravity;
@@ -64,6 +66,34 @@ namespace Synthese_TP2
             this.gravity_check = false;
             yield return new WaitForSeconds(seconds);
             this.gravity_check = true;
+        }
+
+        // VISCOELASTIC SIMULATION
+
+        private void ViscoSimulation()
+        {
+            foreach(Point pt in this.list_points)
+            {
+                pt.velocity += pt.mass * this.gravity;
+            }
+
+            // ApplyViscosity()
+
+            foreach(Point pt in this.list_points)
+            {
+                pt.previous_position = pt.transform.position;
+                pt.transform.position += pt.velocity;
+            }
+
+            // AdjustSprings()
+            // ApplySpringDisplacements()
+            // Double Density Relaxation()
+            // Resolve Collisions()
+
+            foreach(Point pt in this.list_points)
+            {
+                pt.velocity = (pt.transform.position - pt.previous_position);
+            }
         }
     }
 }
