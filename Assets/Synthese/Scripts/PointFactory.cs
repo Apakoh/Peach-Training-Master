@@ -18,7 +18,7 @@ namespace Synthese
         {
             for(int i = 0; i < this.nb_point; i++)
             {
-                Vector3 random_position_agent = GetRandomSpawnPoint(1000, 1000, 1000, 20);
+                Vector3 random_position_agent = GetRandomSpawnPoint(100, 100, 100, 2);
                 Point new_point = Instantiate(this.prefab_point, random_position_agent, Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)), this.parent_points.transform);
                 new_point.name = "Point " + i;
                 new_point.gameObject.GetComponentInChildren<SpriteRenderer>().color = RandomColor();
