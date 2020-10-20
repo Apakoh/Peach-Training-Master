@@ -12,12 +12,10 @@ namespace Synthese_TP2
 
         private Vector3 gravity = new Vector3(0, -9.8f, 0);
 
-        private bool gravity_check;
-
         [Range(0, 10)]
         public float k;
 
-        [Range(0, 1)]
+        [Range(1, 10)]
         public float base_density;
 
         [Range(1,20f)]
@@ -28,42 +26,47 @@ namespace Synthese_TP2
             PointFactory pf = this.GetComponent<PointFactory>();
             this.list_points = pf.list_points;
             this.bundaries = pf.bundaries;
-            this.gravity_check = true;
 
-            Time.timeScale = 1f;
+            Time.timeScale = 0.1f;
         }
 
         private void Update()
         {
             GravitySimulation();
+            ViscoSimulation();
+            VelocityToPosition();
+        }
+
+        private void VelocityToPosition()
+        {
+            foreach(Point pt in this.list_points)
+            {
+                Vector3 next_pos = pt.transform.position + pt.velocity;
+                if(!OutOfRange(next_pos))
+                {
+                    pt.transform.position += pt.velocity;
+                }
+                else
+                {
+                    //pt.velocity /= 3;
+                    //pt.transform.position += -pt.velocity;
+                }
+            }
         }
 
         // GRAVITY SIMULATION
 
         private void GravitySimulation()
         {
-            if (gravity_check)
+            foreach (Point pt in this.list_points)
             {
-                foreach (Point pt in this.list_points)
-                {
-                    Vector3 pt_nex_pos = Gravity(pt);
-                    if (!OutOfRange(pt_nex_pos))
-                    {
-                        pt.transform.position = pt_nex_pos;
-                    }
-                    else
-                    {
-                        pt.velocity = Vector3.zero;
-                    }
-                }
-
-                StartCoroutine(GravityTimer(0.00001f));
-            }
+                pt.velocity = Gravity(pt);
+            }            
         }
 
         private Vector3 Gravity(Point pt)
         {
-           return pt.transform.position + DeltaTime() * pt.velocity + DeltaTime() * gravity;
+           return DeltaTime() * pt.velocity + DeltaTime() * gravity;
         }
 
         private bool OutOfRange(Vector3 pos)
@@ -75,13 +78,6 @@ namespace Synthese_TP2
             return X || Y || Z;
         }
 
-        private IEnumerator GravityTimer(float seconds)
-        {
-            this.gravity_check = false;
-            yield return new WaitForSeconds(seconds);
-            this.gravity_check = true;
-        }
-
         private float DeltaTime()
         {
             return Time.fixedDeltaTime;
@@ -91,11 +87,6 @@ namespace Synthese_TP2
 
         private void ViscoSimulation()
         {
-            foreach(Point pt in this.list_points)
-            {
-                pt.velocity += DeltaTime() * this.gravity;
-            }
-
             // ApplyViscosity();
 
             foreach(Point pt in this.list_points)
@@ -111,7 +102,15 @@ namespace Synthese_TP2
 
             foreach(Point pt in this.list_points)
             {
-                pt.velocity = (pt.transform.position - pt.previous_position);
+                pt.velocity = (pt.transform.position - pt.previous_position) / DeltaTime();
+            }
+
+            foreach (Point pt in this.list_points)
+            {
+                if (OutOfRange(pt.transform.position))
+                {
+                    pt.velocity = Vector3.zero;
+                }
             }
         }
 
@@ -121,11 +120,12 @@ namespace Synthese_TP2
             {
                 float p = 0;
 
-                Hashtable neighbors = GetPointNeighbors(pt);
+                List<Point> neighbors = GetPointNeighbors(pt);                
 
                 foreach (Point neighbor in neighbors)
                 {
                     float q = GetDistanceParticules(pt, neighbor) / this.radius_cohesion;
+
                     if(q < 1)
                     {
                         p += (1 - q) * (1 - q);
@@ -141,13 +141,13 @@ namespace Synthese_TP2
                     float q = GetDistanceParticules(pt, neighbor) / this.radius_cohesion;
                     if (q < 1)
                     {
-                        Vector3 D = DeltaTime() * DeltaTime() * (p * (1 - q)) * (neighbor.transform.position - pt.transform.position).normalized;
+                        Vector3 D = DeltaTime() * DeltaTime() * (pressure * (1 - q)) * (neighbor.transform.position - pt.transform.position).normalized;
                         neighbor.transform.position += D / 2;
                         dx -= D / 2;
                     }
                 }
 
-                pt.transform.position += dx;
+                pt.transform.position += dx;               
             }
         }
 
@@ -156,19 +156,24 @@ namespace Synthese_TP2
             return Vector3.Distance(A.transform.position, B.transform.position);
         }
 
-        private Hashtable GetPointNeighbors(Point pt)
+        private List<Point> GetPointNeighbors(Point pt)
         {
-            Hashtable neighbors = new Hashtable();
+            List<Point> neighbors = new List<Point>();
 
             foreach(Point neighbor in this.list_points)
-            {
-                if(GetDistanceParticules(pt, neighbor) < this.radius_cohesion)
+            {                
+                if(GetDistanceParticules(pt, neighbor) <= this.radius_cohesion)
                 {
-                    neighbors.Add(neighbor, neighbor);
+                    neighbors.Add(neighbor);
                 }
             }
 
             return neighbors;
+        }
+
+        private bool Grounded(Point pt)
+        {
+            return pt.transform.position.y <= -this.bundaries;
         }
     }
 }

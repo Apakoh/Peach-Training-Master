@@ -14,14 +14,14 @@ namespace Synthese_TP2
 
         public List<Point> list_points = new List<Point>();
 
-        [Range(50, 1000)]
+        [Range(10, 1000)]
         public int bundaries = 100;
 
         void Start()
         {
             for(int i = 0; i < this.nb_point; i++)
             {
-                Vector3 random_position_agent = GetRandomSpawnPoint(this.bundaries, this.bundaries, this.bundaries, 2);
+                Vector3 random_position_agent = GetRandomSpawnPoint(this.bundaries, this.bundaries, this.bundaries, 1);
                 Point new_point = Instantiate(this.prefab_point, random_position_agent, Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)), this.parent_points.transform);
                 new_point.name = "Point " + i;
                 new_point.gameObject.GetComponentInChildren<SpriteRenderer>().color = RandomColor();
