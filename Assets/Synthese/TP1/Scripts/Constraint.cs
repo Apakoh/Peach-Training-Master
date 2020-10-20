@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Synthese
+namespace Synthese_TP1
 {
     public class Constraint
     {

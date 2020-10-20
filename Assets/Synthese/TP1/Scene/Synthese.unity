@@ -337,6 +337,7 @@ GameObject:
   - component: {fileID: 1013110710}
   - component: {fileID: 1013110711}
   - component: {fileID: 1013110712}
+  - component: {fileID: 1013110713}
   m_Layer: 0
   m_Name: Game Master
   m_TagString: Untagged
@@ -394,10 +395,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2679102971848784c83ca1b34b35c376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nb_point: 10000
+  nb_point: 1000
   prefab_point: {fileID: 6382071889561915159, guid: a968e04892881784f945f61725730549, type: 3}
   parent_points: {fileID: 407392484}
   list_points: []
+--- !u!114 &1013110713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013110709}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f6fa4c09563e247bad02333f990f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1049254768
 GameObject:
   m_ObjectHideFlags: 0

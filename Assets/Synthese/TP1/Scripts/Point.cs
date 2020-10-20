@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Synthese
+namespace Synthese_TP1
 {
     public class Point : MonoBehaviour
     {
@@ -25,6 +25,7 @@ namespace Synthese
 
         void Start()
         {
+            this.velocity = Vector3.zero;
             this.old_position = this.transform.position;
             this.constraint_a = 0f;
             this.constraint_b = 90f;
