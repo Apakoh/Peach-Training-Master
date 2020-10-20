@@ -27,7 +27,7 @@ namespace Synthese_TP2
             this.list_points = pf.list_points;
             this.bundaries = pf.bundaries;
 
-            Time.timeScale = 0.1f;
+            Time.timeScale = 1f;
         }
 
         private void Update()
@@ -41,25 +41,13 @@ namespace Synthese_TP2
         {
             foreach(Point pt in this.list_points)
             {
-                Vector3 next_pos = pt.transform.position + pt.velocity;
-                if(!OutOfRange(next_pos))
+                if (OutOfRange(pt.transform.position))
                 {
-                    pt.transform.position += pt.velocity;
-                }
-                else
-                {
-                    if(!Grounded(pt))
-                    {
-                        //pt.velocity *= 0.4f;                        
-                        pt.velocity = Vector3.zero;
-                    }
-                    else
-                    {
-                        pt.velocity = Vector3.zero;
-                    }
-
-                    pt.transform.position += -pt.velocity;
-                }
+                    float x = Mathf.Clamp(pt.transform.position.x, -this.bundaries, this.bundaries);
+                    float y = Mathf.Clamp(pt.transform.position.y, -this.bundaries, this.bundaries);
+                    float z = Mathf.Clamp(pt.transform.position.z, -this.bundaries, this.bundaries);
+                    pt.transform.position = new Vector3(x, y, z);
+                }                
             }
         }
 
@@ -70,6 +58,7 @@ namespace Synthese_TP2
             foreach (Point pt in this.list_points)
             {
                 pt.velocity = Gravity(pt);
+                pt.transform.position += pt.velocity;
             }            
         }
 

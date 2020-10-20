@@ -18,7 +18,7 @@ namespace Synthese_TP2
 
         private Vector3 RandomVelocity()
         {
-            return new Vector3(RandomVector3(50f), RandomVector3(50f), RandomVector3(50f));
+            return new Vector3(RandomVector3(10f), RandomVector3(10f), RandomVector3(10f));
         }
 
         private float RandomVector3(float range)

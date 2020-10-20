@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2679102971848784c83ca1b34b35c376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nb_point: 50
+  nb_point: 519
   prefab_point: {fileID: -5171870204758565303, guid: 2e373cd611d5c3f418da05c829efe75a, type: 3}
   parent_points: {fileID: 1119818911}
   list_points: []
