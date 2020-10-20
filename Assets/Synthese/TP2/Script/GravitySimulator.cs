@@ -15,6 +15,9 @@ namespace Synthese_TP2
         [Range(0, 10)]
         public float k;
 
+        [Range(0, 10)]
+        public float k_near;
+
         [Range(1, 10)]
         public float base_density;
 
@@ -109,7 +112,7 @@ namespace Synthese_TP2
             foreach(Point pt in this.list_points)
             {
                 float p = 0;
-
+                float p_near = 0;
                 List<Point> neighbors = GetPointNeighbors(pt);
 
                 foreach (Point neighbor in neighbors)
@@ -118,11 +121,13 @@ namespace Synthese_TP2
 
                     if(q < 1)
                     {
-                        p += (1 - q) * (1 - q);
+                        p += Mathf.Pow((1 - q), 2);
+                        p_near += Mathf.Pow(1 - q, 3);
                     }
                 }
 
                 float pressure = this.k * (p - this.base_density);
+                float pressure_near = this.k_near * p_near;
 
                 Vector3 dx = Vector3.zero;
 
@@ -131,7 +136,7 @@ namespace Synthese_TP2
                     float q = GetDistanceParticules(pt, neighbor) / this.radius_cohesion;
                     if (q < 1)
                     {
-                        Vector3 D = DeltaTime() * DeltaTime() * (pressure * (1 - q)) * (neighbor.transform.position - pt.transform.position).normalized;
+                        Vector3 D = Mathf.Pow(DeltaTime(), 2) * (pressure * (1 - q) + pressure_near * Mathf.Pow((1-q), 2)) * (neighbor.transform.position - pt.transform.position).normalized;
                         neighbor.transform.position += D / 2;
                         dx -= D / 2;
                     }
