@@ -17,6 +17,12 @@ namespace Synthese_TP2
         [Range(0, 10)]
         public float k;
 
+        [Range(0, 1)]
+        public float base_density;
+
+        [Range(1,20f)]
+        public float radius_cohesion;
+
         private void Start()
         {
             PointFactory pf = this.GetComponent<PointFactory>();
@@ -29,7 +35,14 @@ namespace Synthese_TP2
 
         private void Update()
         {
-            if(gravity_check)
+            GravitySimulation();
+        }
+
+        // GRAVITY SIMULATION
+
+        private void GravitySimulation()
+        {
+            if (gravity_check)
             {
                 foreach (Point pt in this.list_points)
                 {
@@ -47,8 +60,6 @@ namespace Synthese_TP2
                 StartCoroutine(GravityTimer(0.00001f));
             }
         }
-
-        // GRAVITY SIMULATION
 
         private Vector3 Gravity(Point pt)
         {
@@ -73,7 +84,7 @@ namespace Synthese_TP2
 
         private float DeltaTime()
         {
-            return Time.deltaTime;
+            return Time.fixedDeltaTime;
         }
 
         // VISCOELASTIC SIMULATION
@@ -109,18 +120,53 @@ namespace Synthese_TP2
             foreach(Point pt in this.list_points)
             {
                 float p = 0;
-                float p_near = 0;
 
-                foreach (Point pts in GetPointNeighbors(pt))
+                Hashtable neighbors = GetPointNeighbors(pt);
+
+                foreach (Point neighbor in neighbors)
                 {
-
+                    float q = GetDistanceParticules(pt, neighbor) / this.radius_cohesion;
+                    if(q < 1)
+                    {
+                        p += (1 - q) * (1 - q);
+                    }
                 }
+
+                float pressure = this.k * (p - this.base_density);
+
+                Vector3 dx = Vector3.zero;
+
+                foreach (Point neighbor in neighbors)
+                {
+                    float q = GetDistanceParticules(pt, neighbor) / this.radius_cohesion;
+                    if (q < 1)
+                    {
+                        Vector3 D = DeltaTime() * DeltaTime() * (p * (1 - q)) * (neighbor.transform.position - pt.transform.position).normalized;
+                        neighbor.transform.position += D / 2;
+                        dx -= D / 2;
+                    }
+                }
+
+                pt.transform.position += dx;
             }
+        }
+
+        private float GetDistanceParticules(Point A, Point B)
+        {
+            return Vector3.Distance(A.transform.position, B.transform.position);
         }
 
         private Hashtable GetPointNeighbors(Point pt)
         {
             Hashtable neighbors = new Hashtable();
+
+            foreach(Point neighbor in this.list_points)
+            {
+                if(GetDistanceParticules(pt, neighbor) < this.radius_cohesion)
+                {
+                    neighbors.Add(neighbor, neighbor);
+                }
+            }
 
             return neighbors;
         }
