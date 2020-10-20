@@ -128,7 +128,7 @@ namespace AI_TP2
 
             while (!AgentSpawnAttempt(random_position_agent, this.neighbor_radius, list_tag))
             {
-                random_position_agent = new Vector3(Random.Range(-this.size_side_X, this.size_side_X), Random.Range(-this.size_side_Y, this.size_side_Y), Random.Range(-this.size_side_Z, this.size_side_Z));
+                random_position_agent = new Vector3(Random.Range(-this.size_side_X, this.size_side_X), Random.Range(0, this.size_side_Y), Random.Range(-this.size_side_Z, this.size_side_Z));
             }
 
             return random_position_agent;

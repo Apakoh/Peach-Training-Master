@@ -10,8 +10,10 @@ namespace Synthese
         public List<Vector3> list_points = new List<Vector3>();
 
         public LineRenderer line_prefab;
+        public GameObject parent_lines;
 
         public GameObject point_prefab;
+        public GameObject parent_points;
 
         public List<LineRenderer> list_lines = new List<LineRenderer>();
         public List<Point> list_points_go = new List<Point>();
@@ -83,6 +85,7 @@ namespace Synthese
 
                 linetemp.SetPosition(0, point_A);
                 linetemp.SetPosition(1, point_B);
+                linetemp.transform.parent = this.parent_lines.transform;
 
                 this.list_lines.Add(linetemp);
             }
@@ -94,7 +97,7 @@ namespace Synthese
 
             for (int i = 0; i < this.list_points.Count; i++)
             {
-                GameObject go = Instantiate(point_prefab, list_points[i], Quaternion.identity);
+                GameObject go = Instantiate(point_prefab, list_points[i], Quaternion.identity, this.parent_points.transform);
                 Point up_pos = go.GetComponent<Point>();
 
                 up_pos.gm = this;
@@ -240,7 +243,6 @@ namespace Synthese
         private Vector3 MousePosition()
         {
             Vector3 mouse_position = Input.mousePosition;
-
             mouse_position.z = -1 * Camera.main.transform.position.z;
 
             return Camera.main.ScreenToWorldPoint(mouse_position);
