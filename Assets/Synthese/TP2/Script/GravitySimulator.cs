@@ -31,7 +31,7 @@ namespace Synthese_TP2
         }
 
         private void Update()
-        {
+        {            
             GravitySimulation();
             ViscoSimulation();
             VelocityToPosition();
@@ -48,8 +48,17 @@ namespace Synthese_TP2
                 }
                 else
                 {
-                    //pt.velocity /= 3;
-                    //pt.transform.position += -pt.velocity;
+                    if(!Grounded(pt))
+                    {
+                        //pt.velocity *= 0.4f;                        
+                        pt.velocity = Vector3.zero;
+                    }
+                    else
+                    {
+                        pt.velocity = Vector3.zero;
+                    }
+
+                    pt.transform.position += -pt.velocity;
                 }
             }
         }
@@ -71,9 +80,9 @@ namespace Synthese_TP2
 
         private bool OutOfRange(Vector3 pos)
         {
-            bool X = pos.x > this.bundaries || pos.x < -this.bundaries;
-            bool Y = pos.y > this.bundaries || pos.y < -this.bundaries;
-            bool Z = pos.z > this.bundaries || pos.z < -this.bundaries;
+            bool X = pos.x >= this.bundaries || pos.x <= -this.bundaries;
+            bool Y = pos.y >= this.bundaries || pos.y <= -this.bundaries;
+            bool Z = pos.z >= this.bundaries || pos.z <= -this.bundaries;
 
             return X || Y || Z;
         }
@@ -92,7 +101,7 @@ namespace Synthese_TP2
             foreach(Point pt in this.list_points)
             {
                 pt.previous_position = pt.transform.position;
-                pt.transform.position += pt.velocity;
+                pt.transform.position += pt.velocity * DeltaTime();
             }
 
             // AdjustSprings();
@@ -104,14 +113,6 @@ namespace Synthese_TP2
             {
                 pt.velocity = (pt.transform.position - pt.previous_position) / DeltaTime();
             }
-
-            foreach (Point pt in this.list_points)
-            {
-                if (OutOfRange(pt.transform.position))
-                {
-                    pt.velocity = Vector3.zero;
-                }
-            }
         }
 
         private void DoubleDensityRelaxation()
@@ -120,7 +121,7 @@ namespace Synthese_TP2
             {
                 float p = 0;
 
-                List<Point> neighbors = GetPointNeighbors(pt);                
+                List<Point> neighbors = GetPointNeighbors(pt);
 
                 foreach (Point neighbor in neighbors)
                 {
