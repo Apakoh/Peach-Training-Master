@@ -12,31 +12,41 @@ namespace Synthese_TP2
 
         private Vector3 gravity = new Vector3(0, -9.8f, 0);
 
+        private bool gravity_check;
+
         private void Start()
         {
             PointFactory pf = this.GetComponent<PointFactory>();
             this.list_points = pf.list_points;
-            this.bundaries = pf.bundaries;
+            this.bundaries = pf.bundaries * 2;
+            this.gravity_check = true;
 
             foreach(Point pt in this.list_points)
             {
                 RandomVelocity(pt);
             }
+
+            Time.timeScale = 0.2f;
         }
 
         private void Update()
         {
-            foreach (Point pt in this.list_points)
+            if(gravity_check)
             {
-                Vector3 pt_nex_pos = Gravity(pt);
-                if (!OutOfRange(pt_nex_pos))
+                foreach (Point pt in this.list_points)
                 {
-                    pt.transform.position = pt_nex_pos;
+                    Vector3 pt_nex_pos = Gravity(pt);
+                    if (!OutOfRange(pt_nex_pos))
+                    {
+                        pt.transform.position = pt_nex_pos;
+                    }
+                    else
+                    {
+                        pt.velocity = Vector3.zero;
+                    }
                 }
-                else
-                {
-                    pt.velocity = Vector3.zero;
-                }
+
+                StartCoroutine(GravityTimer(0.01f));
             }
         }
 
@@ -47,7 +57,7 @@ namespace Synthese_TP2
 
         private void RandomVelocity(Point pt)
         {
-            pt.velocity = new Vector3(RandomVector3(50f), RandomVector3(50f), RandomVector3(50f));
+            pt.velocity = new Vector3(RandomVector3(100f), RandomVector3(100f), RandomVector3(100f));
         }
 
         private float RandomVector3(float range)
@@ -62,6 +72,13 @@ namespace Synthese_TP2
             bool Z = pos.z > this.bundaries || pos.z < -this.bundaries;
 
             return X || Y || Z;
+        }
+
+        private IEnumerator GravityTimer(float seconds)
+        {
+            this.gravity_check = false;
+            yield return new WaitForSeconds(seconds);
+            this.gravity_check = true;
         }
 
     }
