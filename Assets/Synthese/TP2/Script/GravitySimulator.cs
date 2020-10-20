@@ -53,6 +53,7 @@ namespace Synthese_TP2
                     float y = Mathf.Clamp(pt.transform.position.y, -this.bundaries, this.bundaries);
                     float z = Mathf.Clamp(pt.transform.position.z, -this.bundaries, this.bundaries);
                     pt.transform.position = new Vector3(x, y, z);
+                    pt.velocity *= -0.4f;
                 }
             }
         }
