@@ -14,6 +14,9 @@ namespace Synthese_TP2
 
         private bool gravity_check;
 
+        [Range(0, 10)]
+        public float k;
+
         private void Start()
         {
             PointFactory pf = this.GetComponent<PointFactory>();
@@ -41,7 +44,7 @@ namespace Synthese_TP2
                     }
                 }
 
-                StartCoroutine(GravityTimer(0.01f));
+                StartCoroutine(GravityTimer(0.00001f));
             }
         }
 
@@ -49,7 +52,7 @@ namespace Synthese_TP2
 
         private Vector3 Gravity(Point pt)
         {
-           return pt.transform.position + pt.velocity + pt.mass * gravity;
+           return pt.transform.position + DeltaTime() * pt.velocity + DeltaTime() * gravity;
         }
 
         private bool OutOfRange(Vector3 pos)
@@ -68,16 +71,21 @@ namespace Synthese_TP2
             this.gravity_check = true;
         }
 
+        private float DeltaTime()
+        {
+            return Time.deltaTime;
+        }
+
         // VISCOELASTIC SIMULATION
 
         private void ViscoSimulation()
         {
             foreach(Point pt in this.list_points)
             {
-                pt.velocity += pt.mass * this.gravity;
+                pt.velocity += DeltaTime() * this.gravity;
             }
 
-            // ApplyViscosity()
+            // ApplyViscosity();
 
             foreach(Point pt in this.list_points)
             {
@@ -85,15 +93,36 @@ namespace Synthese_TP2
                 pt.transform.position += pt.velocity;
             }
 
-            // AdjustSprings()
-            // ApplySpringDisplacements()
-            // Double Density Relaxation()
-            // Resolve Collisions()
+            // AdjustSprings();
+            // ApplySpringDisplacements();
+            DoubleDensityRelaxation();
+            // ResolveCollisions();
 
             foreach(Point pt in this.list_points)
             {
                 pt.velocity = (pt.transform.position - pt.previous_position);
             }
+        }
+
+        private void DoubleDensityRelaxation()
+        {
+            foreach(Point pt in this.list_points)
+            {
+                float p = 0;
+                float p_near = 0;
+
+                foreach (Point pts in GetPointNeighbors(pt))
+                {
+
+                }
+            }
+        }
+
+        private Hashtable GetPointNeighbors(Point pt)
+        {
+            Hashtable neighbors = new Hashtable();
+
+            return neighbors;
         }
     }
 }
