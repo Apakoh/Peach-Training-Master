@@ -18,13 +18,8 @@ namespace Synthese_TP2
         {
             PointFactory pf = this.GetComponent<PointFactory>();
             this.list_points = pf.list_points;
-            this.bundaries = pf.bundaries * 2;
+            this.bundaries = pf.bundaries;
             this.gravity_check = true;
-
-            foreach(Point pt in this.list_points)
-            {
-                RandomVelocity(pt);
-            }
 
             Time.timeScale = 0.2f;
         }
@@ -52,17 +47,7 @@ namespace Synthese_TP2
 
         private Vector3 Gravity(Point pt)
         {
-           return pt.transform.position + pt.velocity + gravity;
-        }
-
-        private void RandomVelocity(Point pt)
-        {
-            pt.velocity = new Vector3(RandomVector3(100f), RandomVector3(100f), RandomVector3(100f));
-        }
-
-        private float RandomVector3(float range)
-        {
-            return Random.Range(-range, range);
+           return pt.transform.position + pt.velocity + pt.mass * gravity;
         }
 
         private bool OutOfRange(Vector3 pos)
@@ -80,6 +65,5 @@ namespace Synthese_TP2
             yield return new WaitForSeconds(seconds);
             this.gravity_check = true;
         }
-
     }
 }
