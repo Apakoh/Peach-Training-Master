@@ -21,7 +21,7 @@ namespace Synthese_TP2
             this.bundaries = pf.bundaries;
             this.gravity_check = true;
 
-            Time.timeScale = 0.2f;
+            Time.timeScale = 1f;
         }
 
         private void Update()
