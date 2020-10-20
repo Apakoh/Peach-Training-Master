@@ -280,8 +280,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f6fa4c09563e247bad02333f990f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time_scale: 0.13
   k: 1
-  k_near: 0
+  k_near: 4.9
   base_density: 5
   radius_cohesion: 5
 --- !u!114 &1700500508
@@ -296,11 +297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2679102971848784c83ca1b34b35c376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nb_point: 50
+  nb_point: 1429
   prefab_point: {fileID: -5171870204758565303, guid: 2e373cd611d5c3f418da05c829efe75a, type: 3}
   parent_points: {fileID: 1119818911}
   list_points: []
-  bundaries: 10
+  bundaries: 25
 --- !u!1 &1962717683
 GameObject:
   m_ObjectHideFlags: 0

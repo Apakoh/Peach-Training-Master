@@ -12,6 +12,9 @@ namespace Synthese_TP2
 
         private Vector3 gravity = new Vector3(0, -9.8f, 0);
 
+        [Range(0.01f, 1f)]
+        public float time_scale;
+
         [Range(0, 10)]
         public float k;
 
@@ -50,7 +53,7 @@ namespace Synthese_TP2
                     float y = Mathf.Clamp(pt.transform.position.y, -this.bundaries, this.bundaries);
                     float z = Mathf.Clamp(pt.transform.position.z, -this.bundaries, this.bundaries);
                     pt.transform.position = new Vector3(x, y, z);
-                }                
+                }
             }
         }
 
@@ -60,14 +63,14 @@ namespace Synthese_TP2
         {
             foreach (Point pt in this.list_points)
             {
-                pt.velocity = Gravity(pt);
-                pt.transform.position += pt.velocity;
+                pt.velocity += Gravity(pt);
+                //pt.transform.position += pt.velocity;
             }            
         }
 
         private Vector3 Gravity(Point pt)
         {
-           return DeltaTime() * pt.velocity + DeltaTime() * gravity;
+           return (DeltaTime() * this.gravity);
         }
 
         private bool OutOfRange(Vector3 pos)
@@ -81,7 +84,7 @@ namespace Synthese_TP2
 
         private float DeltaTime()
         {
-            return Time.fixedDeltaTime;
+            return this.time_scale;
         }
 
         // VISCOELASTIC SIMULATION
@@ -164,11 +167,6 @@ namespace Synthese_TP2
             }
 
             return neighbors;
-        }
-
-        private bool Grounded(Point pt)
-        {
-            return pt.transform.position.y <= -this.bundaries;
         }
     }
 }

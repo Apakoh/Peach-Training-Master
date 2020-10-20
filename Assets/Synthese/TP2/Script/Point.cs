@@ -18,12 +18,12 @@ namespace Synthese_TP2
 
         private Vector3 RandomVelocity()
         {
-            return new Vector3(RandomVector3(10f), RandomVector3(10f), RandomVector3(10f));
+            return new Vector3(RandomVector3(50f), RandomVector3(50f), RandomVector3(50f));
         }
 
         private float RandomVector3(float range)
         {
-            return Random.Range(0, range);
+            return Random.Range(-range, range);
         }
     }
 }
