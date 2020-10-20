@@ -21,6 +21,8 @@ namespace Synthese
 
         public Constraint constraint;
 
+        public Vector3 velocity;
+
         void Start()
         {
             this.old_position = this.transform.position;
