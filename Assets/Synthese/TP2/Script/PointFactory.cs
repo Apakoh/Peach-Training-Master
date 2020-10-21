@@ -21,7 +21,7 @@ namespace Synthese_TP2
         {
             for(int i = 0; i < this.nb_point; i++)
             {
-                Vector3 random_position_agent = GetRandomSpawnPoint(this.bundaries, this.bundaries, this.bundaries, 1);
+                Vector3 random_position_agent = GetRandomSpawnPoint(this.bundaries);
                 Point new_point = Instantiate(this.prefab_point, random_position_agent, Quaternion.Euler(Vector3.zero), this.parent_points.transform);
                 new_point.name = "Point " + i;
                 new_point.gameObject.GetComponentInChildren<SpriteRenderer>().color = RandomColor();
@@ -29,37 +29,11 @@ namespace Synthese_TP2
             }
         }
 
-        private Vector3 GetRandomSpawnPoint(float x, float y, float z, float radius)
+        private Vector3 GetRandomSpawnPoint(float bundaries)
         {
-            Vector3 random_position_agent = new Vector3(Random.Range(-x, x), Random.Range(-y, y), Random.Range(-z, z));
-
-            string[] list_tag = { "obstacles", "agent" };
-
-            while (!PointSpawnAttempt(random_position_agent, radius, list_tag))
-            {
-                random_position_agent = new Vector3(Random.Range(-x, x), Random.Range(-y, y), Random.Range(-z, z));
-            }
+            Vector3 random_position_agent = new Vector3(Random.Range(-bundaries, bundaries), Random.Range(-bundaries, bundaries), Random.Range(-bundaries, bundaries));
 
             return random_position_agent;
-        }
-
-        private bool PointSpawnAttempt(Vector3 position, float radius_to_check, string[] list_to_check)
-        {
-            Collider[] colliders = Physics.OverlapSphere(position, radius_to_check);
-            bool valid_position = true;
-
-            foreach (Collider col in colliders)
-            {
-                foreach (string element in list_to_check)
-                {
-                    if (col.tag == element)
-                    {
-                        valid_position = false;
-                    }
-                }
-            }
-
-            return valid_position;
         }
 
         private Color RandomColor()
