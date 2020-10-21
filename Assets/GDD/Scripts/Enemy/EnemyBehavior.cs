@@ -30,18 +30,26 @@ namespace GDD
         private bool can_attack;
         private float cd_attack;
 
+        public bool slowed;
+        private bool slow_cd;
+        public float slow_amout;
+
         void Start()
         {
             this.hp_bar = this.GetComponentInChildren<HPBar>();
             
             this.stats = Instantiate(stats);
-            this.speed_ref = 15f;
+            this.speed_ref = 10f;
             this.stats.speed *= this.speed_ref;
+            this.speed_ref = this.stats.speed;
             this.max_hp = this.stats.hp;
 
             this.attacking_turret = false;
             this.can_attack = true;
             this.cd_attack = 1f;
+            this.slowed = false;
+            this.slow_cd = true;
+            this.slow_amout = 0;
 
             if (path_creator != null)
             {
@@ -63,7 +71,7 @@ namespace GDD
 
             if (path_creator != null && !this.attacking_turret)
             {
-                distance_travelled += this.stats.speed * Time.deltaTime;
+                distance_travelled += this.stats.speed * Time.fixedDeltaTime;
                 transform.position = path_creator.path.GetPointAtDistance(distance_travelled, end_of_path_instruction);
                 transform.rotation = path_creator.path.GetRotationAtDistance(distance_travelled, end_of_path_instruction);
             }
@@ -74,6 +82,15 @@ namespace GDD
             }
 
             this.hp_bar.UpdateHPBar(this.max_hp, this.stats.hp);
+
+            if (this.slowed)
+            {
+                //Debug.Log(this.stats.speed);
+            }
+            if(this.slow_cd && this.slowed)
+            {
+                StartCoroutine(SlowCCActive());
+            }
         }
 
         void OnPathChanged()
@@ -124,6 +141,17 @@ namespace GDD
                 this.attacking_turret = false;
                 this.attacked_turret = null;
             }
+        }
+
+        private IEnumerator SlowCCActive()
+        {
+            this.slow_cd = false;
+            this.stats.speed -= this.stats.speed * this.slow_amout;
+            yield return new WaitForSeconds(1f);
+            this.stats.speed = this.speed_ref;
+            this.slow_amout = 0;
+            this.slow_cd = true;
+            this.slowed = false;
         }
     }
 }

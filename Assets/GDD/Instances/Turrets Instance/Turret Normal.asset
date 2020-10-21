@@ -16,5 +16,5 @@ MonoBehaviour:
   hp: 5
   cost: 5
   range: 2
-  direction: 0
+  direction: 2
   dps: 2
