@@ -6,6 +6,7 @@ using System.Text;
 using System.Globalization;
 using FANNCSharp.Double;
 using UnityEngine.UI;
+using System.IO;
 
 namespace AI_FANN
 {
@@ -153,9 +154,10 @@ namespace AI_FANN
         private List<string> CreateTestSets()
         {
             List<string> list_texts = new List<string>();
-            list_texts.Add("test_english.txt");
-            list_texts.Add("test_french.txt");
-            list_texts.Add("test_polish.txt");
+            foreach (FileInfo file in ((new DirectoryInfo(GetFullTextPathTest("")).GetFiles("*.txt"))))
+            {
+                list_texts.Add(file.Name);
+            }
 
             Shuffle(list_texts);
 
