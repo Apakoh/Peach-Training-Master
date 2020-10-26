@@ -33,19 +33,23 @@ namespace AI_FANN
             string french_text = System.IO.File.ReadAllText(GetFullTextPathTraining("french.txt"));
             string english_text = System.IO.File.ReadAllText(GetFullTextPathTraining("english.txt"));
             string polish_text = System.IO.File.ReadAllText(GetFullTextPathTraining("polish.txt"));
+            string espagnol_text = System.IO.File.ReadAllText(GetFullTextPathTraining("espagnol.txt"));
+            string portuguese_text = System.IO.File.ReadAllText(GetFullTextPathTraining("portuguese.txt"));
 
             double[] french_frequencies = Frequencies(french_text);
             double[] english_frequencies = Frequencies(english_text);
             double[] polish_frequencies = Frequencies(polish_text);
+            double[] espagnol_frequencies = Frequencies(espagnol_text);
+            double[] portuguese_frequencies = Frequencies(portuguese_text);
 
-            double[][] inputs = { french_frequencies, english_frequencies, polish_frequencies };
-            double[][] outputs = { new double[] { 1, 0, 0 }, new double[] { 0, 1, 0 }, new double[] { 0, 0, 1 } };
+            double[][] inputs = { french_frequencies, english_frequencies, polish_frequencies, espagnol_frequencies, portuguese_frequencies };
+            double[][] outputs = { new double[] { 1, 0, 0, 0, 0 }, new double[] { 0, 1, 0, 0, 0 }, new double[] { 0, 0, 1, 0, 0 }, new double[] { 0, 0, 0, 1, 0 }, new double[] { 0, 0, 0, 0, 1 } };
 
 
             List<uint> layers = new List<uint>();
             layers.Add(26);
             layers.Add(10);
-            layers.Add(3);
+            layers.Add(5);
 
             NeuralNet network = new NeuralNet(FANNCSharp.NetworkType.LAYER, layers);
 
@@ -125,17 +129,25 @@ namespace AI_FANN
         {
             string res = "None";
 
-            if(frequencies[0] > frequencies[1] && frequencies[0] > frequencies[2])
+            if(frequencies[0] > frequencies[1] && frequencies[0] > frequencies[2] && frequencies[0] > frequencies[3] && frequencies[0] > frequencies[4])
             {
                 res = "French";
             }
-            else if (frequencies[1] > frequencies[0] && frequencies[1] > frequencies[2])
+            else if (frequencies[1] > frequencies[0] && frequencies[1] > frequencies[2] && frequencies[1] > frequencies[3] && frequencies[1] > frequencies[4])
             {
                 res = "English";
             }
-            else if (frequencies[2] > frequencies[0] && frequencies[2] > frequencies[1])
+            else if (frequencies[2] > frequencies[0] && frequencies[2] > frequencies[1] && frequencies[2] > frequencies[3] && frequencies[2] > frequencies[4])
             {
                 res = "Polish";
+            }
+            else if (frequencies[3] > frequencies[0] && frequencies[3] > frequencies[1] && frequencies[3] > frequencies[2] && frequencies[3] > frequencies[4])
+            {
+                res = "Espagnol";
+            }
+            else if (frequencies[4] > frequencies[0] && frequencies[4] > frequencies[1] && frequencies[4] > frequencies[2] && frequencies[4] > frequencies[3])
+            {
+                res = "Portuguese";
             }
 
             return res;
